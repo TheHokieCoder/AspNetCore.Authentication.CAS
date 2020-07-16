@@ -1,0 +1,17 @@
+# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
+###############################
+# Core EditorConfig Options   #
+###############################
+# All files
+[*]
+# Editor Guidelines Extension Settings
+# https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines
+guidelines = 150
+guidelines_style = 1px dotted FFE87722
+
+# Specify the size and style of indentation for all files
+indent_size = 4
+indent_style = tab
+
+# Whether or not to always add a final newline character at the end of all files
+insert_final_newline = true

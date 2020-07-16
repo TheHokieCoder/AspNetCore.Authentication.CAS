@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Version>0.1.0</Version>
+		<Authors>Blair Allen</Authors>
+		<Company>Pamplin College of Business, Virgina Tech</Company>
+		<Copyright>Pamplin College of Business, Virginia Tech</Copyright>
+		<Description>A CAS client for ASP.NET Core web applications</Description>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/TheHokieCoder/AspNetCore.Authentication.CAS/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/TheHokieCoder/AspNetCore.Authentication.CAS/</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>cas asp.net core authentication identity idp</PackageTags>
+		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<DefineConstants>NETSTANDARD2_0</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+		<DefineConstants>NETSTANDARD2_1</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	</ItemGroup>
+
+</Project>
