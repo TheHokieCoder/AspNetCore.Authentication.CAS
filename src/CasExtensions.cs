@@ -12,6 +12,21 @@
 	/// </summary>
 	public static class CasExtensions
 	{
+		#region Constants/Enums
+		private const string AUTHENTICATION_SCHEME_DEFAULT = "CAS";
+
+		private const string DISPLAY_NAME_DEFAULT = "CAS";
+		#endregion Constants/Enums
+
+		#region Fields/Properties
+		#endregion Fields/Properties
+
+		#region Methods
+		public static AuthenticationBuilder AddCas(this AuthenticationBuilder builder, Action<CasOptions> configureOptions)
+		{
+			return builder.AddCas(AUTHENTICATION_SCHEME_DEFAULT, DISPLAY_NAME_DEFAULT, configureOptions);
+		}
+
 		/// <summary>
 		///		Adds the CAS remote authentication scheme to the authentication middleware.
 		/// </summary>
@@ -34,7 +49,8 @@
 		{
 			builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<CasOptions>, CasPostConfigureOptions>());
 
-			return builder.AddRemoteScheme<CasOptions, CasHandler>(authenticationScheme, displayName, configureOptions);
+			return builder.AddRemoteScheme<CasOptions, CasRemoteAuthenticationHandler>(authenticationScheme, displayName, configureOptions);
 		}
+		#endregion Methods
 	}
 }

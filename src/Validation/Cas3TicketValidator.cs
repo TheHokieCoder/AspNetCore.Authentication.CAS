@@ -7,7 +7,7 @@
 	using System.Threading.Tasks;
 	using System.Xml.Linq;
 
-	public class Cas2TicketValidator : ICasTicketValidator
+	public class Cas3TicketValidator : ICasTicketValidator
 	{
 		#region Constants/Enums
 		private const string SERVICE_RESPONSE_XML_NAMESPACE = "http://www.yale.edu/tp/cas";

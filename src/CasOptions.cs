@@ -102,7 +102,7 @@
 			// Configure default CAS options
 			CallbackPath = new PathString("/signin-cas");
 			Events = new CasEvents();
-			TicketValidator = new Cas3TicketValidator();
+			TicketValidator = new Validation.Cas3TicketValidator();
 		}
 		#endregion Methods
 	}

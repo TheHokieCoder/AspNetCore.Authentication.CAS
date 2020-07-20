@@ -34,7 +34,7 @@
 
 			if (casOptions.StateDataFormat == null)
 			{
-				var dataProtector = casOptions.DataProtectionProvider.CreateProtector(typeof(CasHandler).FullName, name, "v1");
+				var dataProtector = casOptions.DataProtectionProvider.CreateProtector(typeof(CasRemoteAuthenticationHandler).FullName, name, "v1");
 				casOptions.StateDataFormat = new PropertiesDataFormat(dataProtector);
 			}
 
