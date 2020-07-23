@@ -124,41 +124,53 @@
 		/// </returns>
 		protected override async Task<HandleRequestResult> HandleRemoteAuthenticateAsync()
 		{
-			var query = Request.Query;
-			var state = query["state"];
-
-			// Decrypt the authentication session state data
-			AuthenticationProperties properties = Options.StateDataFormat.Unprotect(state);
-			if (properties == null)
+			// Check if the request is for Single Log Out (SLO)
+			var isRequestPostMethod = string.Compare(Request.Method, "POST", true) == 0;
+			var isLogOutRequest = isRequestPostMethod && Request.Form.ContainsKey("logoutRequest");
+			if (isRequestPostMethod && isLogOutRequest)
 			{
-				// The request either did not contain the state data, or it was in an invalid format
-				return HandleRequestResult.Fail("The state data is missing from the request, or it is invalid.");
+				// SLO is not supported by this client, so fail the request (which, in most cases, won't cause any problems because SLO is a
+				// best-effort process...see https://apereo.github.io/cas/6.2.x/installation/Logout-Single-Signout.html)
+				return HandleRequestResult.Fail("Single Log Out (SLO) is not supported by this CAS client.");
 			}
-
-			// Ensure that a correlation ID has been provided and that it is valid, pursuant to section 10.12 of the OAuth 2.0 Authorization Framework
-			// https://tools.ietf.org/html/rfc6749#section-10.12
-			if (!ValidateCorrelationId(properties))
+			else
 			{
-				return HandleRequestResult.Fail("Correlation of the user and request failed.");
-			}
+				var query = Request.Query;
+				var state = query["state"];
 
-			var serviceTicket = query["ticket"];
-			if (string.IsNullOrEmpty(serviceTicket))
-			{
-				return HandleRequestResult.Fail("The service ticket identifier is missing from the request.");
-			}
+				// Decrypt the authentication session state data
+				AuthenticationProperties properties = Options.StateDataFormat.Unprotect(state);
+				if (properties == null)
+				{
+					// The request either did not contain the state data, or it was in an invalid format
+					return HandleRequestResult.Fail("The state data is missing from the request, or it is invalid.");
+				}
 
-			// Validate the service ticket presented in the authentication result request
-			var authenticationTicket = await Options.TicketValidator.ValidateTicketAsync(Context, properties, Scheme, Options, serviceTicket,
-				BuildReturnToURL(state));
-			if (authenticationTicket == null)
-			{
-				// The ticket validator was unable to validate the ticket and obtain information about the authenticated user
-				return HandleRequestResult.Fail("Failed to validate the service ticket with the CAS server.");
-			}
+				// Ensure that a correlation ID has been provided and that it is valid, pursuant to section 10.12 of the OAuth 2.0 Authorization Framework
+				// https://tools.ietf.org/html/rfc6749#section-10.12
+				if (!ValidateCorrelationId(properties))
+				{
+					return HandleRequestResult.Fail("Correlation of the user and request failed.");
+				}
 
-			// All checks have passed, so the user may now be considered authenticated with the application
-			return HandleRequestResult.Success(authenticationTicket);
+				var serviceTicket = query["ticket"];
+				if (string.IsNullOrEmpty(serviceTicket))
+				{
+					return HandleRequestResult.Fail("The service ticket identifier is missing from the request.");
+				}
+
+				// Validate the service ticket presented in the authentication result request
+				var authenticationTicket = await Options.TicketValidator.ValidateTicketAsync(Context, properties, Scheme, Options, serviceTicket,
+					BuildReturnToURL(state));
+				if (authenticationTicket == null)
+				{
+					// The ticket validator was unable to validate the ticket and obtain information about the authenticated user
+					return HandleRequestResult.Fail("Failed to validate the service ticket with the CAS server.");
+				}
+
+				// All checks have passed, so the user may now be considered authenticated with the application
+				return HandleRequestResult.Success(authenticationTicket);
+			}
 		}
 		#endregion Methods
 	}
