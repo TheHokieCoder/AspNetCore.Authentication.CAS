@@ -3,16 +3,16 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>0.1.0</Version>
-		<Authors>Blair Allen</Authors>
+		<VersionPrefix>0.1.0</VersionPrefix>
+		<Authors>TheHokieCoder</Authors>
 		<Company>Pamplin College of Business, Virgina Tech</Company>
 		<Copyright>Pamplin College of Business, Virginia Tech</Copyright>
-		<Description>A CAS client for ASP.NET Core web applications</Description>
+		<Description>A CAS client for ASP.NET Core web applications that supports CAS protocol versions 1.0, 2.0, and 3.0.</Description>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageProjectUrl>https://github.com/TheHokieCoder/AspNetCore.Authentication.CAS/</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/TheHokieCoder/AspNetCore.Authentication.CAS/</RepositoryUrl>
+		<RepositoryUrl>https://github.com/TheHokieCoder/AspNetCore.Authentication.CAS.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>cas asp.net core authentication identity idp</PackageTags>
+		<PackageTags>cas asp.net core authentication identity</PackageTags>
 		<PackageReleaseNotes>Initial release</PackageReleaseNotes>
 	</PropertyGroup>
 	
@@ -22,6 +22,12 @@
 
 	<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
 		<DefineConstants>NETSTANDARD2_1</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>

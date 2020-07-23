@@ -1,0 +1,22 @@
+name: NuGet Package Deploy
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  publish:
+    name: Build, Pack & Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v2
+      - name: Build With dotnet CLI
+        run: dotnet build --configuration Release --nologo --verbosity detailed --version-suffix beta ./src/AspNetCore.Authentication.CAS.csproj
+      - name: Publish To NuGet
+        run: |
+             for file in ./src/bin/Release/*.nupkg
+             do
+               dotnet nuget push $file -k ${{secrets.NUGET_DEPLOY_KEY}} -s https://api.nuget.org/v3/index.json
+             done

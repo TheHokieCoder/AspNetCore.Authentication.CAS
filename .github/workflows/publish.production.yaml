@@ -1,0 +1,22 @@
+name: NuGet Package Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    name: Build, Pack & Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v2
+      - name: Build With dotnet CLI
+        run: dotnet build --configuration Release --nologo --verbosity detailed ./src/AspNetCore.Authentication.CAS.csproj
+      - name: Publish To NuGet
+        run: |
+             for file in ./src/bin/Release/*.nupkg
+             do
+               curl --verbose --request PUT --user "HokieCoder:${{secrets.NUGET_DEPLOY_KEY}}" --form package=@$file https://nuget.pkg.github.com/HokieCoder/
+             done
