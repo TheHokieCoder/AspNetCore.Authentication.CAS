@@ -74,6 +74,10 @@
 		{
 			builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<CasOptions>, CasPostConfigureOptions>());
 
+			// Add IHttpClientFactory to the services collection so that an HTTP client can be injected into the CAS client for back-channel calls
+			// to the CAS server.
+			builder.Services.AddHttpClient();
+
 			return builder.AddRemoteScheme<CasOptions, CasRemoteAuthenticationHandler>(authenticationScheme, displayName, configureOptions);
 		}
 		#endregion Methods
